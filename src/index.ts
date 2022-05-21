@@ -14,6 +14,7 @@ import {
 import { CustomUserResolver } from "./resolvers/user";
 import { customAuthChecker } from "./middlewares/authChecker";
 import { MyContext } from "./types";
+import { CustomBookResolver } from "./resolvers/book";
 
 const prisma = new PrismaClient({
   log: [
@@ -54,7 +55,7 @@ async function startApolloServer() {
   applyResolversEnhanceMap(resolversEnhanceMap);
 
   const schema = await buildSchema({
-    resolvers: [...resolvers, CustomUserResolver],
+    resolvers: [...resolvers, CustomUserResolver, CustomBookResolver],
     authChecker: customAuthChecker,
     validate: false,
   });

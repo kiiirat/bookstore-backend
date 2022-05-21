@@ -3,6 +3,7 @@ import { AuthenticationError, UserInputError } from "apollo-server-core";
 import {
   Arg,
   Args,
+  Authorized,
   Ctx,
   Field,
   InputType,
@@ -12,7 +13,7 @@ import {
 } from "type-graphql";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
-import { Context } from "../context";
+import { MyContext } from "../types";
 
 @InputType()
 class UserInput {
@@ -37,7 +38,7 @@ export class CustomUserResolver {
   @Mutation(() => SigninResponse, { nullable: true })
   async signin(
     @Arg("data") data: UserInput,
-    @Ctx() ctx: Context
+    @Ctx() ctx: MyContext
   ): Promise<SigninResponse | null> {
     const user = await ctx.prisma.user.findUnique({
       where: {
@@ -78,9 +79,10 @@ export class CustomUserResolver {
   }
 
   @Mutation(() => User, { nullable: true })
+  @Authorized()
   async createUser(
     @Arg("data") data: UserInput,
-    @Ctx() ctx: Context
+    @Ctx() ctx: MyContext
   ): Promise<User | null> {
     const user = await ctx.prisma.user.create({
       data: {

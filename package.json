@@ -8,6 +8,9 @@
     "start": "npx ts-node --transpile-only src/index.ts",
     "dev": "ts-node-dev --no-notify --rs --respawn --transpile-only src/index.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^3.14.0",
     "apollo-server-core": "^3.7.0",

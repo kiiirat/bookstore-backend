@@ -51,12 +51,13 @@ export class CustomUserResolver {
         argumentName: "email",
       });
     }
-
+    console.log("password", user.password);
     const passwordValid = await argon2.verify(
       user.password as any,
       data.password
     );
     if (!passwordValid) {
+      console.log("error password ");
       throw new AuthenticationError("Password is incorrect", {
         argumentName: "password",
       });

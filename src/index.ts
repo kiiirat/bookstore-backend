@@ -7,10 +7,11 @@ import { buildSchema } from "type-graphql";
 import { context } from "./context";
 
 import { resolvers } from "@generated/type-graphql";
+import { CustomUserResolver } from "./resolvers/user";
 
 async function startApolloServer() {
   const schema = await buildSchema({
-    resolvers: [...resolvers],
+    resolvers: [...resolvers, CustomUserResolver],
     validate: false,
   });
   const app = express();

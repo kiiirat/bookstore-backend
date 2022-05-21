@@ -76,4 +76,19 @@ export class CustomUserResolver {
       token,
     };
   }
+
+  @Mutation(() => User, { nullable: true })
+  async createUser(
+    @Arg("data") data: UserInput,
+    @Ctx() ctx: Context
+  ): Promise<User | null> {
+    const user = await ctx.prisma.user.create({
+      data: {
+        ...data,
+        password: await argon2.hash(data.password),
+      },
+    });
+
+    return user;
+  }
 }
